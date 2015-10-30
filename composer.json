@@ -2,7 +2,7 @@
     "name": "asp/commenter",
     "description": "API for comment app",
     "license": "MIT",
-    
+    "version":"1.1.0",
     "authors": [
         {
             "name": "Abhishek Patel",
@@ -14,8 +14,8 @@
          "guzzlehttp/guzzle": "6.*"
     },
     "autoload":{
-        "psr-0":{
-            "asp\\commenter\\":"asp/commenter/src/"
+        "psr-4":{
+            "asp\\commenter\\":"src/"
         }
     }
 }
