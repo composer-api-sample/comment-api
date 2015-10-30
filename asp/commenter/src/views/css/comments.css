@@ -1,0 +1,91 @@
+.commentContainer{
+	display: block;
+	border:1px solid #CCC;
+	border-radius: 10px;
+	padding: 2%;
+}
+.customize{
+	display: none;
+	/*float: right;*/
+}
+.custom-list{
+	list-style: none;
+}
+.customReplyList{
+	list-style: none;
+}
+.comment{
+	float: left;
+	/*margin-left: 0%;*/
+}
+.e
+.commentAuthor{
+	color:#337AB7;
+	/*float: right*/
+}
+.commentAuthor, .commentBody{
+	font-size: 1.3em;
+}
+.commentBody{
+
+}
+
+.editButton{
+	display: inline-block;
+	/*float:left;*/
+}
+.editText{
+	/*width:10%*/
+}
+.postButton{
+	display: inline-block;
+}
+
+.replyAuthor{
+	color:#337AB7;
+}
+.replyBody{
+
+}
+.reply{
+	float:left;
+	border-left: 1px solid #CCC;
+	padding-left: 1%;
+	/*margin-left: 0%;*/
+}
+.deleteComment, .deleteReply{
+	display: inline-block;
+	/*float:left;*/
+}
+.deleteReply{
+	/*float: left*/
+}
+
+.editReply{
+	display: inline-block;
+	margin-left: 10px;
+}
+
+.editComment{
+	/*float: left;*/
+	display: inline-block;
+	margin-left: 10px;
+}
+.newReply{
+	display: none;
+	/*position:relative;
+	left:-30%;*/
+}
+.toggleNewReply{
+	float: left;
+	cursor: pointer;
+	color:#337AB7;
+}
+.toggleReply{
+	float: left;
+	cursor: pointer;
+	color:orange;
+}
+.custom-divider{
+	
+}
