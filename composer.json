@@ -9,10 +9,7 @@
             "email": "asp15c@my.fsu.edu"
         }
     ],
-     "dist": {
-                    "url": "http://146.201.120.168/abhishek_patel/pure-comment-api/repository/archive.zip",
-                    "type": "zip"
-                },
+     
     "version":"1.0.0",
     "minimum-stability": "dev",
     "require": {
