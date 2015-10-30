@@ -14,7 +14,7 @@
                     "type": "zip"
                 },
     "version":"1.0.0",
-    "minimum-stability": "stable",
+    "minimum-stability": "dev",
     "require": {
         "illuminate/html": "5.*"
     },
@@ -22,5 +22,8 @@
         "psr-0":{
             "asp\\commenter\\":"asp/commenter/src/"
         }
+    },
+    "extra":{
+        "branch-alias":"1.0.x-dev"
     }
 }
