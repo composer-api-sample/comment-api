@@ -13,7 +13,7 @@
         "illuminate/html": "5.*"
     },
     "autoload":{
-        "psr-0":{
+        "psr-4":{
             "asp\\commenter\\":"asp/commenter/src/"
         }
     }
