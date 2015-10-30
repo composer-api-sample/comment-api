@@ -9,9 +9,6 @@
             "email": "asp15c@my.fsu.edu"
         }
     ],
-     
-    "version":"1.0.0",
-    "minimum-stability": "dev",
     "require": {
         "illuminate/html": "5.*"
     },
