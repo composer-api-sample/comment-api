@@ -17,5 +17,10 @@
     "minimum-stability": "dev",
     "require": {
         "illuminate/html": "5.*"
+    },
+    "autoload":{
+        "psr-0":{
+            "asp\\commenter\\":"commenter/src/"
+        }
     }
 }
