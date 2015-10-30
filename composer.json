@@ -1,0 +1,16 @@
+{
+    "name": "asp/commenter",
+    "description": "API for comment app",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Abhishek Patel",
+            "email": "asp15c@my.fsu.edu"
+        }
+    ],
+  
+    "minimum-stability": "dev",
+    "require": {
+        "illuminate/html": "5.*"
+    }
+}
