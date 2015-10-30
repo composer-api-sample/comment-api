@@ -2,10 +2,7 @@
     "name": "asp/commenter",
     "description": "API for comment app",
     "license": "MIT",
-    "dist":{
-        "url":"http://146.201.120.168/abhishek_patel/pure-comment-api/repository/archive.zip",
-        "type":"zip"
-        },
+    
     "authors": [
         {
             "name": "Abhishek Patel",
