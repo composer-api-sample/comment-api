@@ -16,7 +16,7 @@
     },
     "autoload":{
         "psr-0":{
-            "asp\\commenter\\":"commenter/src/"
+            "asp\\commenter\\":"asp/commenter/src/"
         }
     }
 }
