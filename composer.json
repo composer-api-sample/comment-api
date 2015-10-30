@@ -2,6 +2,8 @@
     "name": "asp/commenter",
     "description": "API for comment app",
     "license": "MIT",
+    "version":"1.0.0",
+    
     "authors": [
         {
             "name": "Abhishek Patel",
