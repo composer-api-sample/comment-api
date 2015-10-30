@@ -10,7 +10,7 @@
         }
     ],
     "version":"1.0.0",
-    "minimum-stability": "dev",
+    "minimum-stability": "stable",
     "require": {
         "illuminate/html": "5.*"
     },
