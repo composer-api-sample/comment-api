@@ -9,8 +9,9 @@
             "email": "asp15c@my.fsu.edu"
         }
     ],
-    "require": {
-        "illuminate/html": "5.*"
+    "require-dev": {
+        "illuminate/html": "5.*",
+         "guzzlehttp/guzzle": "6.*"
     },
     "autoload":{
         "psr-0":{
