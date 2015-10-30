@@ -1,4 +1,4 @@
-{
+
     "name":"asp/commenter",
     "description": "API for comment app",
     "license": "MIT",
@@ -20,4 +20,3 @@
             "asp\\commenter\\":"asp/commenter/src/"
         }
     }
-}
