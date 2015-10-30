@@ -3,11 +3,9 @@
 		// alert("woohoo");
 		loadJS("https://code.jquery.com/jquery-2.1.4.min.js");
 		loadJS("https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js");
-		// loadJS("{{url('/')}}/asp/res/js/comments.js");
-		loadJS("{{url('/')}}/../packages/asp/commenter/src/views/js/comments.js");
+		loadJS("{{url('/')}}/asp/res/js/comments.js");
 		loadCSS("https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css");
-		// loadCSS("{{url('/')}}/asp/res/css/comments.css");
-		loadCSS("{{url('/')}}/../packages/asp/commenter/src/views/css/comments.css");
+		loadCSS("{{url('/')}}/asp/res/css/comments.css");
 	};
 	function loadJS(filename){
 		var file=document.createElement("script");
