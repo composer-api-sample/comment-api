@@ -1,5 +1,7 @@
 {
     "name": "asp/commenter",
+    "Name":"asp/commenter",
+    "NAME":"asp/commenter",
     "description": "API for comment app",
     "license": "MIT",
     
