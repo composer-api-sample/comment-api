@@ -1,6 +1,6 @@
 {{-- <div class="container commentContainer"> --}} 
     <ul class="custom-list">
-    	<?php $i=0;?>
+    	<?php $i=0;?>       		<?php $j=0;?>	
        @foreach($comments as $comment)
 	       	<li>	
 	       		<div class="comment">
@@ -38,6 +38,7 @@
 	       		@endif
 	       		<br>
 	       		<ul class="customReplyList">
+	       			
 		       		@foreach(($comment->replies) as $reply)		       						       		
 			       		<li class="custom-divider">			       			
 			       			<br>
@@ -49,8 +50,8 @@
 		       				{{-- <ul class="custom-list"> --}}
 				       			@if($user==$reply->user_id)
 					       			<br>
-					       			<span id="toggleEditReply" class="toggleReply" onclick="toggleEditReply({{$i}});">Edit Reply</span>
-							       		<div class="customize" id="editReplyDiv{{$i}}">
+					       			<span id="toggleEditReply" class="toggleReply" onclick="toggleEditReply({{$j}});">Edit Reply</span>
+							       		<div class="customize" id="editReplyDiv{{$j++}}">
 								       		{{-- <li> --}}
 									       		<div class="editReply">
 							       					<form method="post" action={{url('/')."/editReply"}} class="form-inline">
