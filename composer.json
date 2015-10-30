@@ -22,8 +22,5 @@
         "psr-0":{
             "asp\\commenter\\":"asp/commenter/src/"
         }
-    },
-    "extra":{
-        "branch-alias":"1.0.x-dev"
     }
 }
