@@ -9,7 +9,7 @@
             "email": "asp15c@my.fsu.edu"
         }
     ],
-    "require-dev": {
+    "require": {
         "illuminate/html": "5.*",
          "guzzlehttp/guzzle": "6.*"
     },
