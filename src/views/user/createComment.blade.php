@@ -1,2 +1,2 @@
 <h2>Hello {{$fname}},</h2>
-@{{$origin}} commented on <a href="{{$thread}}">{{$thread}}</a>.
+{{$origin}} commented on <a href="{{$thread}}">{{$thread}}</a>.
