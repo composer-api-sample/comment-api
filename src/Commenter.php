@@ -66,7 +66,7 @@ class Commenter implements CommenterContract{
 		if($res->getBody()=="Authentication failure"){
 	   		return $res->getBody();
 	   	}
-	   	return $this->notifyClients(1,$thread_uri);
+	   	$this->notifyClients(1,$thread_uri);
 		return \Redirect::back();
 	}
 	public function loadComment(){
@@ -240,24 +240,27 @@ class Commenter implements CommenterContract{
 	   	foreach ($users as $user) {
 	   		$receipt=new Foo();
 	   		$temp=User::where('fsu_id',$user)->first();
-	        $receipt->firstname=$temp->fname;
-	        $receipt->lastname=$temp->lname;
-	        $receipt->email=$temp->email;
-	        $receipt->subject="Regarding the thread ".$hostname."/".$thread_uri;
-	        $mailBodyView="";
-	        switch ($a) {
-	        	case 1:
-	        		$receipt->subject=$origin." commented on the thread ".$hostname."/".$thread_uri;
-	        		$mailBodyView="commenter::user.createComment";
-	        		break;
-	        	case 2:
-	        		$receipt->subject=$origin." commented on the thread ".$hostname."/".$thread_uri;
-	        		$mailBodyView="commenter::user.editComment";
-	        		break;
-	        }
-	        \Mail::send(($mailBodyView), ['origin'=>$origin,'fname'=>$receipt->firstname,'thread'=>$hostname."/".$thread_uri], function($message) use($receipt){
-	        $message->to($receipt->email, $receipt->firstname.' '.$receipt->lastname)->subject($receipt->subject);
-	        });	
+	   		if($temp!=null){
+	   			$receipt->firstname=$temp->fname;
+		        $receipt->lastname=$temp->lname;
+		        $receipt->email=$temp->email;
+		        $receipt->subject="Regarding the thread ".$hostname."/".$thread_uri;
+		        $mailBodyView="";
+		        switch ($a) {
+		        	case 1:
+		        		$receipt->subject=$origin." commented on the thread ".$hostname."/".$thread_uri;
+		        		$mailBodyView="commenter::user.createComment";
+		        		break;
+		        	case 2:
+		        		$receipt->subject=$origin." commented on the thread ".$hostname."/".$thread_uri;
+		        		$mailBodyView="commenter::user.editComment";
+		        		break;
+		        }
+		        \Mail::send(($mailBodyView), ['origin'=>$origin,'fname'=>$receipt->firstname,'thread'=>$hostname."/".$thread_uri], function($message) use($receipt){
+		        $message->to($receipt->email, $receipt->firstname.' '.$receipt->lastname)->subject($receipt->subject);
+		        });	
+	   		}
+	        	
 	   	}
 	   	// return "done";
 		}		
