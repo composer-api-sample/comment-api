@@ -65,6 +65,7 @@ class Commenter implements CommenterContract{
 		if($res->getBody()=="Authentication failure"){
 	   		return $res->getBody();
 	   	}
+	   	return $this->notifyClients(1,$thread_uri);
 		return \Redirect::back();
 	}
 	public function loadComment(){
@@ -114,6 +115,7 @@ class Commenter implements CommenterContract{
 		if($res->getBody()=="Authentication failure"){
 	   		return $res->getBody();
 	   	}
+	   	$this->notifyClients(2,$thread_uri);
 		return \Redirect::back();
 	}
 	public function deleteComment($input){
@@ -135,6 +137,7 @@ class Commenter implements CommenterContract{
 		if($res->getBody()=="Authentication failure"){
 	   		return $res->getBody();
 	   	}
+	   	// $this->notifyClients(3,$thread_uri);
 		return \Redirect::back();
 
 	}
@@ -161,6 +164,7 @@ class Commenter implements CommenterContract{
 		if($res->getBody()=="Authentication failure"){
 	   		return $res->getBody();
 	   	}
+	   	// $this->notifyClients();
 		return \Redirect::back();
 	}
 	public function editReply($input,$thread_uri){
@@ -213,4 +217,53 @@ class Commenter implements CommenterContract{
 	   	}
 		return \Redirect::back();
 	}
+	public function notifyClients($a,$thread_uri){
+		if(config('CommenterConfig.email_notification')){
+		$client = new GuzzleHttp\Client();
+		$hostname=gethostname();
+		$thread_uri=$thread_uri;
+	   	$res=$client->request('POST',Commenter::$commentAppURL.'threadUsers',['form_params'=>[
+																						'token'=>config('CommenterConfig.api_key'),
+																						'hostname'=>$hostname,
+																						'thread'=>$thread_uri
+																							]]);
+	   	if($res->getBody()=="Authentication failure"){
+	   		//return $res->getBody();
+	   	}
+	   	$counter= count(json_decode($res->getBody()));
+	   	if($counter==0){
+	   		return 0;
+	   	}
+	   	$origin=\Session::get('user');
+	   	$users=json_decode($res->getBody());
+	   	foreach ($users as $user) {
+	   		$receipt=new Foo();
+	   		$temp=User::where('fsu_id',$user)->first();
+	        $receipt->firstname=$temp->fname;
+	        $receipt->lastname=$temp->lname;
+	        $receipt->email=$temp->email;
+	        $receipt->subject="Regarding the thread ".$hostname."/".$thread_uri;
+	        $mailBodyView="";
+	        switch ($a) {
+	        	case 1:
+	        		$receipt->subject=$origin." commented on the thread ".$hostname."/".$thread_uri;
+	        		$mailBodyView="commenter::user.createComment";
+	        		break;
+	        	case 2:
+	        		$receipt->subject=$origin." commented on the thread ".$hostname."/".$thread_uri;
+	        		$mailBodyView="commenter::user.editComment";
+	        		break;
+	        	default:
+	        		# code...
+	        		break;
+	        }
+	        \Mail::send($mailBodyView), ['origin'=>$origin,'fname'=>$receipt->firstname,'thread'=>$hostname."/".$thread_uri], function($message) use($receipt){
+	        $message->to($receipt->email, $receipt->firstname.' '.$receipt->lastname)->subject($receipt->subject);
+	        });	
+	   	}
+	   	// return "done";
+		}		
+		return 0;
+	}
 }
+class Foo{}
