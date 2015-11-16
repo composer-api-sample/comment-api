@@ -4,6 +4,7 @@ use GuzzleHttp;
 use asp\commenter\Helpers\Contracts\CommenterContract;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\User;
 class Commenter implements CommenterContract{
 	// --------------------Commenter app access variables-------------------------
 	private static $commentAppURL="http://localhost/Comment/public/";
@@ -253,11 +254,8 @@ class Commenter implements CommenterContract{
 	        		$receipt->subject=$origin." commented on the thread ".$hostname."/".$thread_uri;
 	        		$mailBodyView="commenter::user.editComment";
 	        		break;
-	        	default:
-	        		# code...
-	        		break;
 	        }
-	        \Mail::send($mailBodyView), ['origin'=>$origin,'fname'=>$receipt->firstname,'thread'=>$hostname."/".$thread_uri], function($message) use($receipt){
+	        \Mail::send(($mailBodyView), ['origin'=>$origin,'fname'=>$receipt->firstname,'thread'=>$hostname."/".$thread_uri], function($message) use($receipt){
 	        $message->to($receipt->email, $receipt->firstname.' '.$receipt->lastname)->subject($receipt->subject);
 	        });	
 	   	}
