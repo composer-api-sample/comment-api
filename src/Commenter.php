@@ -7,7 +7,7 @@ use App\Http\Controllers\Controller;
 use App\User;
 class Commenter implements CommenterContract{
 	// --------------------Commenter app access variables-------------------------
-	private static $commentAppURL="http://localhost/Comment/public/";
+	private static $commentAppURL=config('CommenterConfig.api_key');
 
 // -------------------------------------------------------------------------------
 	public function getThread($thread_uri){
