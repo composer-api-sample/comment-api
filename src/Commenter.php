@@ -7,14 +7,17 @@ use App\Http\Controllers\Controller;
 use App\User;
 class Commenter implements CommenterContract{
 	// --------------------Commenter app access variables-------------------------
-	private static $commentAppURL=config('CommenterConfig.api_key');
+	private $commentAppURL;
+	public function __construct(){
+		$this->$commentAppURL = config('CommenterConfig.appUrl');
+	}
 
 // -------------------------------------------------------------------------------
 	public function getThread($thread_uri){
 		$client = new GuzzleHttp\Client();
 		$hostname=gethostname();
 		$thread_uri=$thread_uri;
-	   	$res=$client->request('POST',Commenter::$commentAppURL.'getThread',['form_params'=>[
+	   	$res=$client->request('POST',$this->commentAppURL.'getThread',['form_params'=>[
 																						'token'=>config('CommenterConfig.api_key'),
 																						'hostname'=>$hostname,
 																						'thread'=>$thread_uri
@@ -33,7 +36,7 @@ class Commenter implements CommenterContract{
 		$client = new GuzzleHttp\Client();
 		$hostname=gethostname();
 		$thread_uri=$thread_uri;
-		$res=$client->request('POST',Commenter::$commentAppURL.'thread',['form_params'=>[
+		$res=$client->request('POST',$this->commentAppURL.'thread',['form_params'=>[
 																				'token'=>config('CommenterConfig.api_key'),
 																				'hostname'=>$hostname,
 																				'slug'=>$thread_uri
@@ -56,7 +59,7 @@ class Commenter implements CommenterContract{
 		$comment=$input['comment'];
 		$user=\Session::get('user');
 		$hostname=gethostname();
-		$res=$client->request('POST',Commenter::$commentAppURL.'comment',['form_params'=>[
+		$res=$client->request('POST',$this->commentAppURL.'comment',['form_params'=>[
 																				'token'=>config('CommenterConfig.api_key'),
 																				'hostname'=>$hostname,
 																				'slug'=>$thread_uri,
@@ -105,7 +108,7 @@ class Commenter implements CommenterContract{
 		$comment=$input['comment'];
 		$user=\Session::get('user');
 		$hostname=gethostname();
-		$res=$client->request('PUT',Commenter::$commentAppURL.$editUrl,['form_params'=>[
+		$res=$client->request('PUT',$this->commentAppURL.$editUrl,['form_params'=>[
 																				'token'=>config('CommenterConfig.api_key'),
 																				'hostname'=>$hostname,
 																				// "_method"=>'PUT',
@@ -131,7 +134,7 @@ class Commenter implements CommenterContract{
 		$editUrl="comment/".$commentId;
 		$client = new GuzzleHttp\Client();	
 		$hostname=gethostname();
-		$res=$client->request('DELETE',Commenter::$commentAppURL.$editUrl,['form_params'=>[
+		$res=$client->request('DELETE',$this->commentAppURL.$editUrl,['form_params'=>[
 																				'token'=>config('CommenterConfig.api_key'),
 																				'hostname'=>$hostname
 																				]]);
@@ -155,7 +158,7 @@ class Commenter implements CommenterContract{
 		$comment=$input['commentId'];
 		$user=\Session::get('user');
 		$hostname=gethostname();
-		$res=$client->request('POST',Commenter::$commentAppURL.'reply',['form_params'=>[
+		$res=$client->request('POST',$this->commentAppURL.'reply',['form_params'=>[
 																				'token'=>config('CommenterConfig.api_key'),
 																				'hostname'=>$hostname,
 																				'reply'=>$reply,
@@ -182,7 +185,7 @@ class Commenter implements CommenterContract{
 		$reply=$input['reply'];
 		$user=\Session::get('user');
 		$hostname=gethostname();
-		$res=$client->request('PUT',Commenter::$commentAppURL.$editUrl,['form_params'=>[
+		$res=$client->request('PUT',$this->commentAppURL.$editUrl,['form_params'=>[
 																				'token'=>config('CommenterConfig.api_key'),
 																				'hostname'=>$hostname,
 																				// "_method"=>'PUT',
@@ -209,7 +212,7 @@ class Commenter implements CommenterContract{
 		$editUrl="reply/".$commentId;
 		$client = new GuzzleHttp\Client();	
 		$hostname=gethostname();
-		$res=$client->request('DELETE',Commenter::$commentAppURL.$editUrl,['form_params'=>[
+		$res=$client->request('DELETE',$this->commentAppURL.$editUrl,['form_params'=>[
 																				'token'=>config('CommenterConfig.api_key'),
 																				'hostname'=>$hostname
 																				]]);
@@ -223,7 +226,7 @@ class Commenter implements CommenterContract{
 		$client = new GuzzleHttp\Client();
 		$hostname=gethostname();
 		$thread_uri=$thread_uri;
-	   	$res=$client->request('POST',Commenter::$commentAppURL.'threadUsers',['form_params'=>[
+	   	$res=$client->request('POST',$this->commentAppURL.'threadUsers',['form_params'=>[
 																						'token'=>config('CommenterConfig.api_key'),
 																						'hostname'=>$hostname,
 																						'thread'=>$thread_uri
