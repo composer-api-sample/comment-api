@@ -21,7 +21,8 @@ class Commenter implements CommenterContract{
 																						'token'=>config('CommenterConfig.api_key'),
 																						'hostname'=>$hostname,
 																						'thread'=>$thread_uri
-																							]]);
+																							],
+																		'verify'=>false]);
 	   	if($res->getBody()=="Authentication failure"){
 	   		return $res->getBody();
 	   	}
@@ -40,7 +41,8 @@ class Commenter implements CommenterContract{
 																				'token'=>config('CommenterConfig.api_key'),
 																				'hostname'=>$hostname,
 																				'slug'=>$thread_uri
-																				]]);
+																				],
+																		'verify'=>false]);
 		if($res->getBody()=="Authentication failure"){
 	   		return $res->getBody();
 	   	}
@@ -65,7 +67,8 @@ class Commenter implements CommenterContract{
 																				'slug'=>$thread_uri,
 																				'comment'=>$comment,
 																				'user'=>$user
-																				]]);
+																				],
+																		'verify'=>false]);
 		if($res->getBody()=="Authentication failure"){
 	   		return $res->getBody();
 	   	}
@@ -115,7 +118,8 @@ class Commenter implements CommenterContract{
 																				'slug'=>$thread_uri,
 																				'comment'=>$comment,
 																				'user'=>$user
-																				]]);
+																				],
+																		'verify'=>false]);
 		if($res->getBody()=="Authentication failure"){
 	   		return $res->getBody();
 	   	}
@@ -137,7 +141,8 @@ class Commenter implements CommenterContract{
 		$res=$client->request('DELETE',$this->commentAppURL.$editUrl,['form_params'=>[
 																				'token'=>config('CommenterConfig.api_key'),
 																				'hostname'=>$hostname
-																				]]);
+																				],
+																		'verify'=>false]);
 		if($res->getBody()=="Authentication failure"){
 	   		return $res->getBody();
 	   	}
@@ -164,7 +169,8 @@ class Commenter implements CommenterContract{
 																				'reply'=>$reply,
 																				'comment'=>$comment,
 																				'user'=>$user
-																				]]);
+																				],
+																		'verify'=>false]);
 		if($res->getBody()=="Authentication failure"){
 	   		return $res->getBody();
 	   	}
@@ -193,7 +199,8 @@ class Commenter implements CommenterContract{
 																				// 'comment'=>$comment,
 																				'user'=>$user,
 																				'reply'=>$reply
-																				]]);
+																				],
+																		'verify'=>false]);
 		if($res->getBody()=="Authentication failure"){
 	   		return $res->getBody();
 	   	}
@@ -215,7 +222,8 @@ class Commenter implements CommenterContract{
 		$res=$client->request('DELETE',$this->commentAppURL.$editUrl,['form_params'=>[
 																				'token'=>config('CommenterConfig.api_key'),
 																				'hostname'=>$hostname
-																				]]);
+																				],
+																		'verify'=>false]);
 		if($res->getBody()=="Authentication failure"){
 	   		return $res->getBody();
 	   	}
@@ -230,7 +238,8 @@ class Commenter implements CommenterContract{
 																						'token'=>config('CommenterConfig.api_key'),
 																						'hostname'=>$hostname,
 																						'thread'=>$thread_uri
-																							]]);
+																							],
+																		'verify'=>false]);
 	   	if($res->getBody()=="Authentication failure"){
 	   		//return $res->getBody();
 	   	}
