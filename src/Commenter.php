@@ -1,6 +1,7 @@
 <?php 
 namespace asp\commenter;
 use GuzzleHttp;
+use GuzzleHttp\Exception\RequestException;
 use asp\commenter\Helpers\Contracts\CommenterContract;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -8,8 +9,10 @@ use App\User;
 class Commenter implements CommenterContract{
 	// --------------------Commenter app access variables-------------------------
 	private $commentAppURL;
+	private $isDebug;
 	public function __construct(){
 		$this->$commentAppURL = config('CommenterConfig.appUrl');
+		$this->isDebug = config('CommenterConfig.isDebug');
 	}
 
 // -------------------------------------------------------------------------------
@@ -17,14 +20,21 @@ class Commenter implements CommenterContract{
 		$client = new GuzzleHttp\Client();
 		$hostname=gethostname();
 		$thread_uri=$thread_uri;
-	   	$res=$client->request('POST',$this->commentAppURL.'getThread',['form_params'=>[
-																						'token'=>config('CommenterConfig.api_key'),
-																						'hostname'=>$hostname,
-																						'thread'=>$thread_uri
-																							],
-																		'verify'=>false]);
+		try{
+		   	$res=$client->request('POST',$this->commentAppURL.'getThread',['form_params'=>[
+																							'token'=>config('CommenterConfig.api_key'),
+																							'hostname'=>$hostname,
+																							'thread'=>$thread_uri
+																								],
+																			'verify'=>false]);
+	   }catch(RequestException $e){
+		   	return "";
+	   }
 	   	if($res->getBody()=="Authentication failure"){
-	   		return $res->getBody();
+	   		if($this->isDebug){
+		   		return $res->getBody();	   			
+	   		}
+	   		return "";
 	   	}
 	   	$counter= count(json_decode($res->getBody()));
 	   	if($counter==0){
@@ -37,14 +47,21 @@ class Commenter implements CommenterContract{
 		$client = new GuzzleHttp\Client();
 		$hostname=gethostname();
 		$thread_uri=$thread_uri;
-		$res=$client->request('POST',$this->commentAppURL.'thread',['form_params'=>[
-																				'token'=>config('CommenterConfig.api_key'),
-																				'hostname'=>$hostname,
-																				'slug'=>$thread_uri
-																				],
-																		'verify'=>false]);
+		try{
+			$res=$client->request('POST',$this->commentAppURL.'thread',['form_params'=>[
+																					'token'=>config('CommenterConfig.api_key'),
+																					'hostname'=>$hostname,
+																					'slug'=>$thread_uri
+																					],
+																			'verify'=>false]);
+		}catch(RequestException $e){
+			return "";
+		}
 		if($res->getBody()=="Authentication failure"){
-	   		return $res->getBody();
+	   		if($this->isDebug){
+		   		return $res->getBody();	   			
+	   		}
+	   		return "";
 	   	}
 		return json_decode($res->getBody());
 	}
@@ -61,16 +78,23 @@ class Commenter implements CommenterContract{
 		$comment=$input['comment'];
 		$user=\Session::get('user');
 		$hostname=gethostname();
-		$res=$client->request('POST',$this->commentAppURL.'comment',['form_params'=>[
-																				'token'=>config('CommenterConfig.api_key'),
-																				'hostname'=>$hostname,
-																				'slug'=>$thread_uri,
-																				'comment'=>$comment,
-																				'user'=>$user
-																				],
-																		'verify'=>false]);
+		try{
+			$res=$client->request('POST',$this->commentAppURL.'comment',['form_params'=>[
+																					'token'=>config('CommenterConfig.api_key'),
+																					'hostname'=>$hostname,
+																					'slug'=>$thread_uri,
+																					'comment'=>$comment,
+																					'user'=>$user
+																					],
+																			'verify'=>false]);
+		}catch(RequestException $e){
+			return \Redirect::back();
+		}
 		if($res->getBody()=="Authentication failure"){
-	   		return $res->getBody();
+	   		if($this->isDebug){
+		   		return $res->getBody();	   			
+	   		}
+	   		return \Redirect::back();;
 	   	}
 	   	$this->notifyClients(1,$thread_uri);
 		return \Redirect::back();
@@ -79,7 +103,13 @@ class Commenter implements CommenterContract{
 		$thread_uri= $_SERVER['REQUEST_URI'];
         $thread_object= \Commenter::getThread($thread_uri);
         if($thread_object=="Authentication failure"){
-        	return "Authentication failure";
+        	if($this->isDebug){
+		   		return $res->getBody();	   			
+	   		}
+	   		return \View::make('commenter::appNotFound');
+        }
+        if($thread_object == ""){
+        	return \View::make('commenter::appNotFound');
         }
         // $thread_object=json_decode($thread_object);
         // return $thread_object;
@@ -111,17 +141,27 @@ class Commenter implements CommenterContract{
 		$comment=$input['comment'];
 		$user=\Session::get('user');
 		$hostname=gethostname();
-		$res=$client->request('PUT',$this->commentAppURL.$editUrl,['form_params'=>[
-																				'token'=>config('CommenterConfig.api_key'),
-																				'hostname'=>$hostname,
-																				// "_method"=>'PUT',
-																				'slug'=>$thread_uri,
-																				'comment'=>$comment,
-																				'user'=>$user
-																				],
-																		'verify'=>false]);
+		try{
+			$res=$client->request('PUT',$this->commentAppURL.$editUrl,['form_params'=>[
+																					'token'=>config('CommenterConfig.api_key'),
+																					'hostname'=>$hostname,
+																					// "_method"=>'PUT',
+																					'slug'=>$thread_uri,
+																					'comment'=>$comment,
+																					'user'=>$user
+																					],
+																			'verify'=>false]);
+		}catch(RequestException $e){
+			if($this->isDebug){
+		   		return $res->getBody();	   			
+	   		}
+	   		return \Redirect::back();
+		}
 		if($res->getBody()=="Authentication failure"){
-	   		return $res->getBody();
+	   		if($this->isDebug){
+		   		return $res->getBody();	   			
+	   		}
+	   		return \Redirect::back();
 	   	}
 	   	$this->notifyClients(2,$thread_uri);
 		return \Redirect::back();
@@ -138,13 +178,23 @@ class Commenter implements CommenterContract{
 		$editUrl="comment/".$commentId;
 		$client = new GuzzleHttp\Client();	
 		$hostname=gethostname();
-		$res=$client->request('DELETE',$this->commentAppURL.$editUrl,['form_params'=>[
-																				'token'=>config('CommenterConfig.api_key'),
-																				'hostname'=>$hostname
-																				],
-																		'verify'=>false]);
+		try{
+			$res=$client->request('DELETE',$this->commentAppURL.$editUrl,['form_params'=>[
+																					'token'=>config('CommenterConfig.api_key'),
+																					'hostname'=>$hostname
+																					],
+																			'verify'=>false]);
+		}catch(RequestException $e){
+			if($this->isDebug){
+		   		return $res->getBody();	   			
+	   		}
+	   		return \Redirect::back();
+		}
 		if($res->getBody()=="Authentication failure"){
-	   		return $res->getBody();
+	   		if($this->isDebug){
+		   		return $res->getBody();	   			
+	   		}
+	   		return \Redirect::back();
 	   	}
 	   	// $this->notifyClients(3,$thread_uri);
 		return \Redirect::back();
@@ -163,16 +213,26 @@ class Commenter implements CommenterContract{
 		$comment=$input['commentId'];
 		$user=\Session::get('user');
 		$hostname=gethostname();
-		$res=$client->request('POST',$this->commentAppURL.'reply',['form_params'=>[
-																				'token'=>config('CommenterConfig.api_key'),
-																				'hostname'=>$hostname,
-																				'reply'=>$reply,
-																				'comment'=>$comment,
-																				'user'=>$user
-																				],
-																		'verify'=>false]);
+		try{
+			$res=$client->request('POST',$this->commentAppURL.'reply',['form_params'=>[
+																					'token'=>config('CommenterConfig.api_key'),
+																					'hostname'=>$hostname,
+																					'reply'=>$reply,
+																					'comment'=>$comment,
+																					'user'=>$user
+																					],
+																			'verify'=>false]);
+		}catch(RequestException $e){
+			if($this->isDebug){
+		   		return $res->getBody();	   			
+	   		}
+	   		return \Redirect::back();;
+		}
 		if($res->getBody()=="Authentication failure"){
-	   		return $res->getBody();
+	   		if($this->isDebug){
+		   		return $res->getBody();	   			
+	   		}
+	   		return \Redirect::back();;
 	   	}
 	   	// $this->notifyClients();
 		return \Redirect::back();
@@ -191,18 +251,28 @@ class Commenter implements CommenterContract{
 		$reply=$input['reply'];
 		$user=\Session::get('user');
 		$hostname=gethostname();
-		$res=$client->request('PUT',$this->commentAppURL.$editUrl,['form_params'=>[
-																				'token'=>config('CommenterConfig.api_key'),
-																				'hostname'=>$hostname,
-																				// "_method"=>'PUT',
-																				'slug'=>$thread_uri,
-																				// 'comment'=>$comment,
-																				'user'=>$user,
-																				'reply'=>$reply
-																				],
-																		'verify'=>false]);
+		try{
+			$res=$client->request('PUT',$this->commentAppURL.$editUrl,['form_params'=>[
+																					'token'=>config('CommenterConfig.api_key'),
+																					'hostname'=>$hostname,
+																					// "_method"=>'PUT',
+																					'slug'=>$thread_uri,
+																					// 'comment'=>$comment,
+																					'user'=>$user,
+																					'reply'=>$reply
+																					],
+																			'verify'=>false]);
+		}catch(RequestException $e){
+			if($this->isDebug){
+		   		return $res->getBody();	   			
+	   		}
+	   		return \Redirect::back();;
+		}
 		if($res->getBody()=="Authentication failure"){
-	   		return $res->getBody();
+	   		if($this->isDebug){
+		   		return $res->getBody();	   			
+	   		}
+	   		return \Redirect::back();;
 	   	}
 		return \Redirect::back();
 	   	
@@ -219,13 +289,23 @@ class Commenter implements CommenterContract{
 		$editUrl="reply/".$commentId;
 		$client = new GuzzleHttp\Client();	
 		$hostname=gethostname();
-		$res=$client->request('DELETE',$this->commentAppURL.$editUrl,['form_params'=>[
-																				'token'=>config('CommenterConfig.api_key'),
-																				'hostname'=>$hostname
-																				],
-																		'verify'=>false]);
+		try{
+			$res=$client->request('DELETE',$this->commentAppURL.$editUrl,['form_params'=>[
+																					'token'=>config('CommenterConfig.api_key'),
+																					'hostname'=>$hostname
+																					],
+																			'verify'=>false]);
+		}catch(RequestException $e){
+			if($this->isDebug){
+		   		return $res->getBody();	   			
+	   		}
+	   		return \Redirect::back();;
+		}
 		if($res->getBody()=="Authentication failure"){
-	   		return $res->getBody();
+	   		if($this->isDebug){
+		   		return $res->getBody();	   			
+	   		}
+	   		return \Redirect::back();;
 	   	}
 		return \Redirect::back();
 	}
@@ -234,14 +314,24 @@ class Commenter implements CommenterContract{
 		$client = new GuzzleHttp\Client();
 		$hostname=gethostname();
 		$thread_uri=$thread_uri;
-	   	$res=$client->request('POST',$this->commentAppURL.'threadUsers',['form_params'=>[
-																						'token'=>config('CommenterConfig.api_key'),
-																						'hostname'=>$hostname,
-																						'thread'=>$thread_uri
-																							],
-																		'verify'=>false]);
+		try{
+		   	$res=$client->request('POST',$this->commentAppURL.'threadUsers',['form_params'=>[
+																							'token'=>config('CommenterConfig.api_key'),
+																							'hostname'=>$hostname,
+																							'thread'=>$thread_uri
+																								],
+																			'verify'=>false]);
+		}catch(RequestException $e){
+			if($this->isDebug){
+		   		return $res->getBody();	   			
+	   		}
+	   		return 0;
+		}
 	   	if($res->getBody()=="Authentication failure"){
-	   		//return $res->getBody();
+	   		if($this->isDebug){
+		   		return $res->getBody();	   			
+	   		}
+	   		return 0;
 	   	}
 	   	$counter= count(json_decode($res->getBody()));
 	   	if($counter==0){
