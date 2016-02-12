@@ -11,7 +11,7 @@ class Commenter implements CommenterContract{
 	private $commentAppURL;
 	private $isDebug;
 	public function __construct(){
-		$this->$commentAppURL = config('CommenterConfig.appUrl');
+		$this->commentAppURL = config('CommenterConfig.appUrl');
 		$this->isDebug = config('CommenterConfig.isDebug');
 	}
 
@@ -104,7 +104,7 @@ class Commenter implements CommenterContract{
         $thread_object= \Commenter::getThread($thread_uri);
         if($thread_object=="Authentication failure"){
         	if($this->isDebug){
-		   		return $res->getBody();	   			
+		   		return $thread_object;	   			
 	   		}
 	   		return \View::make('commenter::appNotFound');
         }
