@@ -126,7 +126,7 @@ class Commenter implements CommenterContract{
         return \View::make('commenter::comments.createComment')->with('user',$user)->nest('loader','commenter::comments.viewComment',['comments'=>$comments,
         																										 'replyView'=>$replyView,
         																										 'user'=>$user]);
-	}
+	}  
 	public function editComment($input,$thread_uri){
 		if(!(\Session::has('user'))){return \Redirect::back();}
 		$validator=\Validator::make($input,[

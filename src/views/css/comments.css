@@ -1,8 +1,16 @@
 .commentContainer{
 	display: block;
-	border:1px solid #CCC;
-	border-radius: 10px;
+	border-top:1px solid #CCC;
+	/*border-radius: 10px;*/
 	padding: 2%;
+	width: 100%;
+}
+
+.panel-default > .customPanelHeader{
+	border-bottom:1px solid #eee;
+}
+.comment-time{
+	color:rgb(118,118,118);
 }
 .customize{
 	display: none;
@@ -13,21 +21,18 @@
 }
 .customReplyList{
 	list-style: none;
+	display: none;
 }
 .comment{
 	float: left;
 	/*margin-left: 0%;*/
 }
-.e
-.commentAuthor{
-	color:#337AB7;
+.panel-default > .commentAuthor{
+	/*color:#337AB7;*/
 	/*float: right*/
 }
-.commentAuthor, .commentBody{
-	font-size: 1.3em;
-}
 .commentBody{
-
+	font-size:1.21em;
 }
 
 .editButton{
@@ -45,25 +50,34 @@
 	color:#337AB7;
 }
 .replyBody{
-
+	/*font-size: 0.8em;*/
 }
 .reply{
 	float:left;
-	border-left: 1px solid #CCC;
+	/*border-top: 1px solid #ddd;*/
 	padding-left: 1%;
+	/*width: 100%;*/
 	/*margin-left: 0%;*/
+}
+.reply-wrapper{
+/*	border-left: 1px solid #ddd;*/
+	border-top: 1px solid #ddd;
+	width:100%;
+	padding:1%;
 }
 .deleteComment, .deleteReply{
 	display: inline-block;
 	/*float:left;*/
 }
 .deleteReply{
+	display: inline-block;
 	/*float: left*/
 }
 
 .editReply{
 	display: inline-block;
-	margin-left: 10px;
+	/*margin-left: 10px;*/
+	width: 100%;
 }
 
 .editComment{
@@ -77,15 +91,19 @@
 	left:-30%;*/
 }
 .toggleNewReply{
-	float: left;
+	/*float: left;*/
 	cursor: pointer;
 	color:#337AB7;
 }
 .toggleReply{
-	float: left;
+	padding-left: 1%;
 	cursor: pointer;
 	color:orange;
 }
+.replyWrapperToggler{
+	cursor: pointer;
+	color:rgb(118,118,118);
+}
 .custom-divider{
-	
+	/*margin-top:1%;*/
 }
