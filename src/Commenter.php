@@ -341,7 +341,7 @@ class Commenter implements CommenterContract{
 	   	$users=json_decode($res->getBody());
 	   	foreach ($users as $user) {
 	   		$receipt=new Foo();
-	   		$temp=User::where('fsu_id',$user)->first();
+	   		$temp=User::where('fsuid',$user)->first();
 	   		if($temp!=null){
 	   			$receipt->firstname=$temp->fname;
 		        $receipt->lastname=$temp->lname;
