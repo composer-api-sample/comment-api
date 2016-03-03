@@ -40,7 +40,7 @@
 	/*float:left;*/
 }
 .editText{
-	/*width:10%*/
+	width:100%
 }
 .postButton{
 	display: inline-block;
@@ -66,23 +66,23 @@
 	padding:1%;
 }
 .deleteComment, .deleteReply{
-	display: inline-block;
+	/*display: inline-block;*/
 	/*float:left;*/
+	margin:10px;
 }
 .deleteReply{
-	display: inline-block;
 	/*float: left*/
 }
 
 .editReply{
-	display: inline-block;
-	/*margin-left: 10px;*/
+	/*display: inline-block;*/
+	margin-left: 10px;
 	width: 100%;
 }
 
 .editComment{
 	/*float: left;*/
-	display: inline-block;
+	/*display: inline-block;*/
 	margin-left: 10px;
 }
 .newReply{

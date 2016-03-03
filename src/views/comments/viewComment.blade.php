@@ -53,23 +53,23 @@
 			       		<div class="customize" id="editCommentDiv{{$i}}">
 				       		{{-- <br> --}}
 			       			<div class="editComment">
-				       			<form method="post" action={{url('/')."/editComment"}} id="editForm{{$i}}" class="form-inline">
+				       			<form method="post" action={{url('/')."/editComment"}} id="editForm{{$i}}" class="">
 									<input type="hidden" name="_token" value="{{ csrf_token() }}">
 									<input type="hidden" name="_comment" value="{{ $comment->id*21 }}">
 									<input type="hidden" name="_thread" value="{{  $_SERVER['REQUEST_URI'] }}">
 									<div class="form-group">
 										<label for="comment">{{$user}}:</label>
-										<input type="text" id="comment" name="comment"  placeholder="{{$comment->comment}}" class="form-control editText"/>
+										<textarea type="text" id="comment" name="comment"  placeholder="{{$comment->comment}}" class="form-control editText"></textarea>
 									</div>							
-									<input type="submit" value="Update" class="btn btn-warning btn-xs editButton"/>
+									<input type="submit" value="Update Comment" class="btn btn-warning btn-xs editButton"/>
 								</form>
 							</div>
 							{{-- </li><li> --}}
-							<div class="deleteComment">
-				       			<form method="post" action={{url('/')."/deleteComment"}} id="deleteForm{{$i}}" class="form-inline">
+							<div class="deleteComment">				
+				       			<form method="post" action={{url('/')."/deleteComment"}} id="deleteForm{{$i}}" class="">
 				       				<input type="hidden" name="_token" value="{{ csrf_token() }}">
 				       				<input type="hidden" name="_comment" value="{{ $comment->id*21 }}">
-				       				<input type="submit" value="delete" class="btn btn-danger btn-xs"/>
+				       				<input type="submit" value="Delete Comment" class="btn btn-danger btn-xs"/>
 				       			</form>
 			       			</div>
 		       			</div>       		
@@ -124,12 +124,12 @@
 															<label for="reply">{{$user}}:</label>
 																<input type="text" name="reply" id="reply"  placeholder="{{$reply->reply}}" class="form-control editReply"/>
 															</div>										
-															<input type="submit" value="Edit Reply" class="btn btn-warning btn-xs editButton"/>
+															<input type="submit" value="Update Reply" class="btn btn-warning btn-xs editButton"/>
 														</form>
 													</div>				       			
 											{{-- </li><li> --}}
-													<div class="deleteReply pull-right">
-								       					<form method="post" action={{url('/')."/deleteReply"}} class="form-inline">
+													<div class="deleteReply">
+								       					<form method="post" action={{url('/')."/deleteReply"}} class="">
 										       				<input type="hidden" name="_token" value="{{ csrf_token() }}">
 										       				<input type="hidden" name="_reply" value="{{ $reply->id*21 }}">
 										       				<input type="submit" value="Delete Reply" class="btn btn-danger btn-xs"/>
